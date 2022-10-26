@@ -1,0 +1,37 @@
+{
+  "name": "json-html",
+  "viewName": "JSON-HTML",
+  "type": "executer",
+  "main": "app.js",
+  "execProgram": "node",
+  "exposeRoute": false,
+  "imgUrl": "logo.png",
+  "version": "1.0.0",
+  "description": "Kaholo Plugin parsing JSON to a HTML Table using DOM Methods",
+  "category": [
+    "Basic Tools"
+  ],
+  "keywords": [
+    "json",
+    "file",
+    "files",
+    "read",
+    "write",
+    "parse"
+  ],
+  "methods": [
+    {
+      "name": "parseJsonHTML",
+      "viewName": "Parse JSON file to HTML Table",
+      "params": [
+        {
+          "name": "filePath",
+          "viewName": "File path",
+          "type": "string",
+          "required": true,
+          "description": "A JSON file to parse and deliver as HTML"
+        }
+      ]
+    }
+  ]
+}

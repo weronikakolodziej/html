@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>
+Kaholo SonarQube Metrics
+	</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+	</script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <br><br>
+<img src="https://kaholo.io/wp-content/uploads/2022/07/kaholo-logo3.svg" width="300"> <br><br>
+<style>
+body {
+  background-color: #faf1e8;
+  text-align: center;
+}
+table {
+  background-color: #fff;
+  width: 70%;
+}
+</style>
+</head>
+
+<body id = "body">
+	
+	<h1>
+		SonarQube Metrics Report
+	</h1>
+	<br><br><br>
+	<p id = "tab" style =
+		"font-size: 15px; font-weight: bold;">
+	</p>
+<div align="center">
+<canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+<script>
+var xyValues = [
+  {x:50, y:7},
+  {x:60, y:8},
+  {x:70, y:8},
+  {x:80, y:9},
+  {x:90, y:9},
+  {x:100, y:9},
+  {x:110, y:10},
+  {x:120, y:11},
+  {x:130, y:14},
+  {x:140, y:14},
+  {x:150, y:15}
+];
+
+new Chart("myChart", {
+  type: "scatter",
+  data: {
+    datasets: [{
+      pointRadius: 4,
+      pointBackgroundColor: "#ef6183",
+      data: xyValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    scales: {
+      xAxes: [{ticks: {min: 40, max:160}}],
+      yAxes: [{ticks: {min: 6, max:16}}],
+    }
+  }
+});
+</script>
+
+<br/><br/><br/>
+	<button class="btn btn-info" onclick = "constructTable('#table')">
+		Show data in a table
+	</button>
+	
+	<br><br>
+
+	<table style="width:100%;max-width:700px" border="1" class="table table-bordered"
+			id="table">
+            <thead> </thead>
+            <tbody> </tbody>
+	</table>
+	
+	<script>
+		var tab = document.getElementById("tab");
+		
+		var fileContent = [
+			{"metric":"violations","value":"3269","bestValue":false},{"metric":"coverage","value":"0.0","bestValue":false}
+		];
+		
+		tab.innerHTML = "JSON data:<br><br>"
+				+ JSON.stringify(fileContent[0]) + "<br>"
+				+ JSON.stringify(fileContent[1]) + "<br><br><br>"
+				;
+			
+		function constructTable(selector) {
+			
+			// Getting the all column names
+			var cols = Headers(fileContent, selector);
+
+			// Traversing the JSON data
+			for (var i = 0; i < fileContent.length; i++) {
+				var row = $('<tr/>');
+				for (var colIndex = 0; colIndex < cols.length; colIndex++)
+				{
+					var val = fileContent[i][cols[colIndex]];
+					
+					// If there is any key, which is matching
+					// with the column name
+					if (val == null) val = "";
+						row.append($('<td/>').html(val));
+				}
+				
+				// Adding each row to the table
+				$(selector).append(row);
+			}
+		}
+		
+		function Headers(fileContent, selector) {
+			var columns = [];
+			var header = $('<tr/>');
+			
+			for (var i = 0; i < fileContent.length; i++) {
+				var row = fileContent[i];
+				
+				for (var k in row) {
+					if ($.inArray(k, columns) == -1) {
+						columns.push(k);
+						
+						// Creating the header
+						header.append($('<th/>').html(k));
+					}
+				}
+			}
+			
+			// Appending the header to the table
+			$(selector).append(header);
+				return columns;
+		}	
+	</script>
+    
+</div>
+</body>
+
+</html>
+
